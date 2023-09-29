@@ -264,7 +264,7 @@
 
     <script src="script.js"></script>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66226417-1"></script>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66226417-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() {
@@ -272,7 +272,13 @@
         }
         gtag('js', new Date());
         gtag('config', 'UA-66226417-1');
-    </script>
+    </script> -->
+        <script>
+            console.info('開始生成書籍範例');
+            setTimeout(() => {
+              ePubViewer.doBook("./book.epub");
+            }, 500);
+        </script>
 </body>
 
 </html>
