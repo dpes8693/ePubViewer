@@ -94,7 +94,25 @@ let App = function (el) {
     }
     this.applyTheme();
 };
+App.prototype.cHighlight = function (cfiRange) {
+    console.log('cHighlight', cfiRange)
+    this.state.rendition.annotations.highlight(cfiRange, {}, (e) => {
+        console.log("highlight clicked", e.target);
+    });
 
+    this.state.rendition.themes.default({
+        '::selection': {
+            'background': 'rgba(255,255,0, 0.3)'
+        },
+        '.epubjs-hl': {
+            'fill': 'yellow', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
+        }
+    });
+
+    // setTimeout(() => {
+    //     this.state.rendition.annotations.remove(cfiRange, 'highlight')
+    // }, 2000)
+};
 App.prototype.doBook = function (url, opts) {
     this.qs(".book").innerHTML = "Loading";
 
@@ -130,7 +148,9 @@ App.prototype.doBook = function (url, opts) {
     this.state.rendition.on("relocated", this.onRenditionRelocatedSavePos.bind(this));
     this.state.rendition.on("started", this.onRenditionStartedRestorePos.bind(this));
     this.state.rendition.on("displayError", this.fatal.bind(this, "error rendering book"));
-
+    // 首先绑定选中事件
+    this.state.rendition.on('selected', this.cHighlight.bind(this))
+    // 
     this.state.rendition.display();
 
     if (this.state.dictInterval) window.clearInterval(this.state.dictInterval);
@@ -379,11 +399,12 @@ App.prototype.onRenditionClick = function (event) {
         this.doSidebar();
     } else if (x < third) {
         event.preventDefault();
-        this.state.rendition.prev();
+        console.log(111);
+        // this.state.rendition.prev();
         b = this.qs(".bar button.prev");
     } else if (x > (third * 2)) {
         event.preventDefault();
-        this.state.rendition.next();
+        // this.state.rendition.next();
         b = this.qs(".bar button.next");
     }
     if (b) {
